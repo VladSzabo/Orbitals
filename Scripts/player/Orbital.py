@@ -9,7 +9,8 @@ class Orbital:
 
     angle = 180
 
-    def __init__(self, width, height, imageName, damage, fireRate, distance, speed):
+    def __init__(self, playerName, width, height, imageName, damage, fireRate, distance, speed):
+        self.playerName = playerName
         self.width = width
         self.height = height
         self.image = pygame.image.load("res/" + imageName + ".png");
@@ -26,8 +27,9 @@ class Orbital:
 
         self.changeAngle(-1, self.speed)
 
-        if Constants.RIGHT:
-            self.changeAngle(1, self.speed * 2)
+        if self.playerName == Constants.myId:
+            if Constants.RIGHT:
+                self.changeAngle(1, self.speed * 2)
 
         self.damageEnemies()
         gameDisplay.blit(self.image, self.rect)

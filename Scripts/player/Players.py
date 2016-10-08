@@ -21,4 +21,10 @@ class Players:
         for player in Players.players:
             player.update()
             if player.health < 0:
-                print "Player ", player.name, " a murit"
+                pass
+                # print "Player ", player.name, " a murit"
+
+    @staticmethod
+    def addPlayer(id):
+        color = "Red"
+        Players.players.append(Player(str(id), Constants.Colors[color], pygame.Rect(0., 0., Constants.WIDTH / 25, Constants.WIDTH / 25)))

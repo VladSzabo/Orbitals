@@ -33,7 +33,6 @@ class StartMenu:
     def render(self, gameDisplay):
         gameDisplay.blit(self.orbitalsText, [Constants.WIDTH / 2 - self.orbitalsSize[0] / 2, Constants.HEIGHT / 4 - self.orbitalsSize[1] / 2])
 
-
         if not self.connectToServer:
             gameDisplay.blit(self.connectText, [Constants.WIDTH / 2 - self.connectSize[0] / 2, Constants.HEIGHT / 1.8 - self.connectSize[1] / 2])
             gameDisplay.blit(self.serverText, [Constants.WIDTH / 2 - self.serverSize[0] / 2, Constants.HEIGHT / 1.4 - self.serverSize[1] / 2])
@@ -48,7 +47,9 @@ class StartMenu:
                                                    self.serverSize[1]).collidepoint(mpos):
                 Constants.firstMenu = False
                 Constants.initServer()
-                Constants.initClient('localhost')
+                import socket
+                Constants.initClient(socket.gethostname())
+
         else:
             if self.inp is None:
                 self.inp = inputbox.ask(gameDisplay, 'IP')

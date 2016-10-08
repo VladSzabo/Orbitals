@@ -1,8 +1,10 @@
 import math
-
 import pygame
 
+
 class Constants:
+
+    myId = '0'
 
     Colors = {
         "Red": (255, 0, 0),
@@ -65,8 +67,8 @@ class Constants:
     def initClient(ip):
         from Scripts.general.Main import Main
         from Scripts.net.Client import Client
-        from threading import  Thread
-        Client('79.119.202.100')
+        from threading import Thread
+        Client(ip)
         Main.clientThread = Thread(target = Client.ClientListen)
         Main.clientThread.start()
         Client.sendInfo("connect")
