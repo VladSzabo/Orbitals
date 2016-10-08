@@ -66,7 +66,7 @@ class Constants:
         from Scripts.general.Main import Main
         from Scripts.net.Client import Client
         from threading import  Thread
-        Client(ip)
+        Client('79.119.202.100')
         Main.clientThread = Thread(target = Client.ClientListen)
         Main.clientThread.start()
         Client.sendInfo("connect")

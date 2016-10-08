@@ -53,6 +53,7 @@ class StartMenu:
             if self.inp is None:
                 self.inp = inputbox.ask(gameDisplay, 'IP')
             else:
+                Constants.firstMenu = False
                 Constants.initClient(self.inp)
 
 

@@ -8,7 +8,7 @@ class Server:
     clients = []
 
     def __init__(self):
-        Server.serversocket.bind(('localhost', 8089))
+        Server.serversocket.bind((socket.gethostname(), 8089))
         Server.serversocket.listen(5)
         print "Server Created"
 
