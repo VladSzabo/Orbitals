@@ -1,6 +1,8 @@
-import pygame
 import math
-from Constante import Constants
+
+import pygame
+
+from Scripts.general.Constante import Constants
 
 
 class Orbital:

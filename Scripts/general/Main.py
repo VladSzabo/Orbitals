@@ -1,8 +1,7 @@
-import pygame
-from Player import Player
-from StartMenu import StartMenu
-from World import *
-from Creatures import Creatures
+from Scripts.gui.StartMenu import StartMenu
+from Scripts.mobs.Creatures import Creatures
+from Scripts.player.Players import Players
+from Scripts.world.World import *
 
 
 class Main:
@@ -12,13 +11,16 @@ class Main:
 
     # Game Stuff
     startMenu = StartMenu()
-    world = World()
-    creatures = Creatures()
-    player = Player(Constants.Colors["Green"], pygame.Rect(0., 0., Constants.WIDTH / 25, Constants.WIDTH / 25))
+
+    clientThread = None
+    serverThread = None
 
     def __init__(self):
         pygame.init()
         Constants()
+        Players()
+        World.generateWorld()
+        Creatures.generareMobs()
 
         pygame.display.set_caption("Orbitals")
         self.startMenu.initFont()
@@ -38,9 +40,9 @@ class Main:
         self.gameDisplay.fill(Constants.Colors["White"])
 
         if not Constants.firstMenu:
-            self.world.render(self.gameDisplay)
-            self.player.render(self.gameDisplay)
-            self.creatures.render(self.gameDisplay)
+            World.render(self.gameDisplay)
+            Players.render(self.gameDisplay)
+            Creatures.render(self.gameDisplay)
         else:
             self.startMenu.render(self.gameDisplay)
 
@@ -48,11 +50,8 @@ class Main:
 
     def update(self):
         if not Constants.firstMenu:
-            self.player.update()
-            self.creatures.update()
-            if self.player.health < 0:
-                Constants.gameOver = True
-                print "Ai murit"
+            Players.update()
+            Creatures.update()
 
     def handleKeys(self, event):
         if event.type == pygame.QUIT:

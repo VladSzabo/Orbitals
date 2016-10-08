@@ -1,6 +1,8 @@
-import pygame
 from random import randint
-from Constante import Constants
+
+import pygame
+
+from Scripts.general.Constante import Constants
 
 
 class Block:
@@ -20,6 +22,10 @@ class Block:
 class World:
 
     def __init__(self):
+        pass
+
+    @staticmethod
+    def generateWorld():
         World.MAPWIDTH = 15
         World.MAPHEIGHT = 15
         World.map = []
@@ -39,7 +45,8 @@ class World:
             World.map[y][x] = Block(pygame.Rect(x * Constants.blockSize, y * Constants.blockSize, Constants.blockSize,
                                               Constants.blockSize), "2", "1", 1, 0)
 
-    def render(self, gameDisplay):
+    @staticmethod
+    def render(gameDisplay):
         for i in range(World.MAPHEIGHT):
             for j in range(World.MAPWIDTH):
                 World.map[i][j].render(gameDisplay)
