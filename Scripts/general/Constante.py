@@ -75,3 +75,8 @@ class Constants:
         from Scripts.net.Server import Server
         thread = Thread(target = Server.startServer)
         thread.start()
+
+    @staticmethod
+    def send(message):
+        from Scripts.net.Client import Client
+        Client.send(message)

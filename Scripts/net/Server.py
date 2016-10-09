@@ -28,13 +28,14 @@ class Server:
             if receivedData:
 
                 receivedData = str(receivedData)
+                print "Server received: " + receivedData
                 if "connect" in receivedData:
                     receivedData = receivedData + "|" + str(Server.playersConnected)
                     Server.playersConnected += 1
 
                 every = Server.clients.values()
                 for one in every:
-                    one.send(receivedData + '\n')
+                    one.send(receivedData)
             else:
                 self.close()
 

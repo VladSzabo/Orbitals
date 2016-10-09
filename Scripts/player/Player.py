@@ -41,12 +41,16 @@ class Player:
         if self.name == Constants.myId:
             if Constants.D and not self.coliziune(1, 0):
                 self.rect[0] += self.speed
+                Constants.send("coord|"+self.name+"|"+str(int(self.rect[0]))+","+str(int(self.rect[1]))+","+str(int(self.rect[2]))+","+str(int(self.rect[3]))+"|")
             if Constants.A and not self.coliziune(-1, 0):
                 self.rect[0] -= self.speed
+                Constants.send("coord|"+self.name+"|"+str(int(self.rect[0]))+","+str(int(self.rect[1]))+","+str(int(self.rect[2]))+","+str(int(self.rect[3]))+"|")
             if Constants.W and not self.coliziune(0, -1):
                 self.rect[1] -= self.speed
+                Constants.send("coord|"+self.name+"|"+str(int(self.rect[0]))+","+str(int(self.rect[1]))+","+str(int(self.rect[2]))+","+str(int(self.rect[3]))+"|")
             if Constants.S and not self.coliziune(0, 1):
                 self.rect[1] += self.speed
+                Constants.send("coord|"+self.name+"|"+str(int(self.rect[0]))+","+str(int(self.rect[1]))+","+str(int(self.rect[2]))+","+str(int(self.rect[3]))+"|")
 
     def coliziune(self, dirX, dirY):
         col = False
