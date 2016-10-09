@@ -65,19 +65,13 @@ class Constants:
 
     @staticmethod
     def initClient(ip):
-        from Scripts.general.Main import Main
         from Scripts.net.Client import Client
-        from threading import Thread
         Client(ip)
-        Main.clientThread = Thread(target = Client.ClientListen)
-        Main.clientThread.start()
-        Client.sendInfo("connect")
+        Client.StartClient()
 
     @staticmethod
     def initServer():
-        from Scripts.general.Main import Main
-        from Scripts.net.Server import Server
         from threading import Thread
-        Server()
-        Main.serverThread = Thread(target = Server.ServerListen)
-        Main.serverThread.start()
+        from Scripts.net.Server import Server
+        thread = Thread(target = Server.startServer)
+        thread.start()

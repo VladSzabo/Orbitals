@@ -1,37 +1,57 @@
+import asyncore
 import socket
-import threading
 
 
 class Server:
 
-    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    nrClients = 0
-    clients = []
-    clients_lock = threading.Lock()
+    clients = {}
+    playersConnected = 0
+
+    class MainServerSocket(asyncore.dispatcher):
+
+        def __init__(self, port):
+            asyncore.dispatcher.__init__(self)
+            self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.bind((socket.gethostname(), port))
+            self.listen(5)
+
+        def handle_accept(self):
+            newSocket, address = self.accept()
+            Server.clients[address] = newSocket
+            print "Connected from", address
+            Server.SecondaryServerSocket(newSocket)
+
+    class SecondaryServerSocket(asyncore.dispatcher_with_send):
+
+        def handle_read(self):
+            receivedData = self.recv(8192)
+            if receivedData:
+
+                receivedData = str(receivedData)
+                if "connect" in receivedData:
+                    receivedData = receivedData + "|" + str(Server.playersConnected)
+                    Server.playersConnected += 1
+
+                every = Server.clients.values()
+                for one in every:
+                    one.send(receivedData + '\n')
+            else:
+                self.close()
+
+        def handle_close(self):
+            print "Disconnected from", self.getpeername()
+            one = self.getpeername()
+            Server.playersConnected -= 1
+            del Server.clients[one]
 
     def __init__(self):
-        Server.serversocket.bind((socket.gethostname(), 8089))
-        Server.serversocket.listen(5)
-        print "Server Created"
+        pass
 
     @staticmethod
-    def ServerListen():
-        while True:
-            connection, address = Server.serversocket.accept()
-            with Server.clients_lock:
-                Server.clients.append(connection)
-                connection.sendall("yourIdIs=" + str(Server.nrClients))
-                Server.nrClients += 1
-            try:
-                while True:
-                    buf = connection.recv(64)
-                    if len(buf) > 0:
-                        print "Server received: " + str(buf) + " from: " + str(address)
-                        with Server.clients_lock:
-                            for c in Server.clients:
-                                c.sendall(buf)
-                        break
-                    else:
-                        break
-            finally:
-                pass
+    def startServer():
+        Server.MainServerSocket(21567)
+        asyncore.loop()
+
+
+
+

@@ -12,9 +12,6 @@ class Main:
     # Game Stuff
     startMenu = StartMenu()
 
-    clientThread = None
-    serverThread = None
-
     def __init__(self):
         pygame.init()
         Constants()
