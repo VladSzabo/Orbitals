@@ -42,6 +42,7 @@ class Client:
             if Client.firstTimeConnect:
                 Client.firstTimeConnect = True
                 id = data.split("|")[1]
+                Client.playersConnected = int(id) + 1
 
                 Constants.myId = id
                 Players.players[0].name = id

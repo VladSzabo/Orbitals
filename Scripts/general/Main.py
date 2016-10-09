@@ -66,6 +66,9 @@ class Main:
                 Constants.LEFT = True
             if event.key == pygame.K_RIGHT:
                 Constants.RIGHT = True
+            if event.key == pygame.K_1:
+                Players.addPlayer(1)
+                # TESTAT
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:

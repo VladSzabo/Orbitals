@@ -7,7 +7,6 @@ class Player:
 
     speed = 2
     health = 100
-    orbitals = []
     damaged = False
     tick = 0
 
@@ -19,6 +18,7 @@ class Player:
         self.rect[1] = Constants.HEIGHT / 2 - self.rect[3] / 2
 
         distance = rect[3] * 1.9
+        self.orbitals = []
         self.orbitals.append(Orbital("", self.rect[2] / 2, self.rect[2] / 2, "orbital", 1, 1, distance, 2))
         # print(str(self.color) + " " + str(self.rect))
 
