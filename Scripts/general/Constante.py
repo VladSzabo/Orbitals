@@ -32,6 +32,9 @@ class Constants:
     gameOver = False
     firstMenu = True
     blockSize = WIDTH / 15
+    # Scroll
+    sX = 0
+    sY = 0
 
     def __init__(self):
         for i in range(len(self.Images)):

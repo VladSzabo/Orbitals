@@ -48,21 +48,34 @@ class Client:
                 Constants.myId = id
                 Players.players[0].name = id
                 Players.players[0].orbitals[0].playerName = id
+
                 if int(id) >= 1:
                     for i in range(int(id)):
                         Players.addPlayer(i)
             else:
+                if Constants.myId == "0":
+                    pass
+                    # send the map to the other players
                 Players.addPlayer(Client.playersConnected)
                 Client.playersConnected += 1
         else:
             if "coord" in data:
-                data = data.split("|")
-                if data[1] != Constants.myId:
-                    coords = data[2].split(",")
-                    for player in Players.players:
-                        if player.name == data[1]:
-                            try:
-                                player.rect = pygame.Rect(int(coords[0]), int(coords[1]), int(coords[2]), int(coords[3]))
-                            finally:
-                                break
+                chunks = data.split("?")
+                for chunk in chunks:
+                    data = chunk.split("|")
+                    if len(data) > 2:
+                        Client.move_player(data[1], data[2].split(","))
+            if "map" in data:
+                pass
+
+
+    @staticmethod
+    def move_player(id, coords):
+        for player in Players.players:
+            if player.name == id:
+                try:
+                    player.rect[0] = int(coords[0])
+                    player.rect[1] = int(coords[1])
+                finally:
+                    break
 

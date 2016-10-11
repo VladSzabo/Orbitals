@@ -48,7 +48,7 @@ class Creatures:
                     else:
                         self.move(-1., 0)
 
-        nrZombies = 3
+        nrZombies = 1
 
         for i in range(nrZombies):
             x = randint(0, Constants.WIDTH)
@@ -73,6 +73,6 @@ class Creatures:
                     Creatures.mobs.pop(i)
 
         if len(Creatures.mobs) == 0:
-            World.generateWorld()
+            # World.generateWorld()
             Creatures.generareMobs()
 

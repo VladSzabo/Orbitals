@@ -98,4 +98,7 @@ class Main:
 if __name__ == "__main__":
     Main().mainLoop()
     pygame.quit()
+    if Constants.myId == "0":
+        from Scripts.net.Server import Server
+        Server.startServer().stop()
     quit()

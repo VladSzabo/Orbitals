@@ -5,7 +5,8 @@ import socket
 class Server:
 
     clients = {}
-    playersConnected = 0
+    clientsId = {}
+    playersConnected = -1
 
     class MainServerSocket(asyncore.dispatcher):
 
@@ -18,6 +19,9 @@ class Server:
         def handle_accept(self):
             newSocket, address = self.accept()
             Server.clients[address] = newSocket
+            Server.playersConnected += 1
+            Server.clientsId[address] = Server.playersConnected
+
             print "Connected from", address
             Server.SecondaryServerSocket(newSocket)
 
@@ -29,13 +33,20 @@ class Server:
 
                 receivedData = str(receivedData)
                 print "Server received: " + receivedData
+
+                player = None
+                if "|" in str(receivedData):
+                    player = str(receivedData).split("|")
+                    player = player[1]
+
                 if "connect" in receivedData:
                     receivedData = receivedData + "|" + str(Server.playersConnected)
-                    Server.playersConnected += 1
 
-                every = Server.clients.values()
-                for one in every:
-                    one.send(receivedData)
+                for key in Server.clients:
+                    if player is None:
+                        Server.clients[key].send(receivedData)
+                    elif Server.clientsId[key] != int(player):
+                        Server.clients[key].send(receivedData)
             else:
                 self.close()
 
@@ -44,6 +55,7 @@ class Server:
             one = self.getpeername()
             Server.playersConnected -= 1
             del Server.clients[one]
+            del Server.clientsId[one]
 
     def __init__(self):
         pass

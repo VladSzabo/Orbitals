@@ -25,6 +25,8 @@ class Orbital:
         self.rect = pygame.Rect(float(playerRect[0] + playerRect[2] / 2 + math.cos(math.radians(self.angle)) * self.distance - self.width / 2),
                                 float(playerRect[1] + playerRect[3] / 2 + math.sin(math.radians(self.angle)) * self.distance - self.height / 2), self.width, self.height)
 
+        display_rectangle = pygame.Rect(self.rect[0] - Constants.sX, self.rect[1] - Constants.sY, self.rect[2], self.rect[3])
+
         self.changeAngle(-1, self.speed)
 
         if self.playerName == Constants.myId:
@@ -32,7 +34,7 @@ class Orbital:
                 self.changeAngle(1, self.speed * 2)
 
         self.damageEnemies()
-        gameDisplay.blit(self.image, self.rect)
+        gameDisplay.blit(self.image, display_rectangle)
 
     def changeAngle(self, modifier, amount):
             self.angle += modifier * amount

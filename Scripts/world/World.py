@@ -3,7 +3,7 @@ from random import randint
 import pygame
 
 from Scripts.general.Constante import Constants
-
+from Scripts.world.Room import Room
 
 class Block:
 
@@ -15,40 +15,30 @@ class Block:
         self.health = health
 
     def render(self, gameDisplay):
+
+        display_rectangle = pygame.Rect(self.rect[0] - Constants.sX, self.rect[1] - Constants.sY, self.rect[2], self.rect[3])
+
         if not(self.backgroundSpriteName is None):
-            gameDisplay.blit(Constants.Images[self.backgroundSpriteName], self.rect)
-        gameDisplay.blit(Constants.Images[self.spriteName], self.rect)
+            gameDisplay.blit(Constants.Images[self.backgroundSpriteName], display_rectangle)
+        gameDisplay.blit(Constants.Images[self.spriteName], display_rectangle)
+
 
 class World:
+
+    rooms = []
 
     def __init__(self):
         pass
 
     @staticmethod
     def generateWorld():
-        World.MAPWIDTH = 15
-        World.MAPHEIGHT = 15
-        World.map = []
-
-        for i in range(World.MAPHEIGHT):
-            World.map.append([])
-            for j in range(World.MAPWIDTH):
-                block = Block(pygame.Rect(j * Constants.blockSize, i * Constants.blockSize, Constants.blockSize,
-                                            Constants.blockSize), "1", None, 0, 0)
-                World.map[i].append(block)
-
-        dark_blocks = randint(World.MAPWIDTH / 4, World.MAPWIDTH)
-        for i in range(dark_blocks):
-            x = randint(0, World.MAPWIDTH-1)
-            y = randint(0, World.MAPHEIGHT-1)
-
-            World.map[y][x] = Block(pygame.Rect(x * Constants.blockSize, y * Constants.blockSize, Constants.blockSize,
-                                              Constants.blockSize), "2", "1", 1, 0)
+        World.rooms.append(Room("1"))
 
     @staticmethod
     def render(gameDisplay):
-        for i in range(World.MAPHEIGHT):
-            for j in range(World.MAPWIDTH):
-                World.map[i][j].render(gameDisplay)
+
+        for room in World.rooms:
+            room.render(gameDisplay)
+
 
 

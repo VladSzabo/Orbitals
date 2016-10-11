@@ -15,6 +15,7 @@ class Enemy:
         self.speed = speed
         self.image = Constants.Mobs[image]
         self.image = pygame.transform.scale(self.image, (rect[2], rect[3]))
+        self.current_room = 0
 
         if not(rangeInfo is None):
             self.ranged = True
@@ -24,9 +25,11 @@ class Enemy:
             self.ranged = False
 
     def render(self, gameDisplay):
-        gameDisplay.blit(self.image, self.rect)
+        display_rectangle = pygame.Rect(self.rect[0] - Constants.sX, self.rect[1] - Constants.sY, self.rect[2], self.rect[3])
+
+        gameDisplay.blit(self.image, display_rectangle)
         if self.damaged:
-            gameDisplay.fill((255, 0, 0, 0.1), self.rect)
+            gameDisplay.fill((255, 0, 0, 0.1), display_rectangle)
 
     def update(self):
         self.update2()
@@ -52,19 +55,17 @@ class Enemy:
             return False
 
     def coliziune(self, dirX, dirY):
-
         col = False
-        x = int(self.rect[0] / Constants.blockSize)
-        y = int(self.rect[1] / Constants.blockSize)
+        x = self.rect[0] / Constants.blockSize
+        y = self.rect[1] / Constants.blockSize
 
-        for i in range(y-1, y+3):
-            for j in range(x-2, x+2):
-                if i >= 0 and j >= 0 and i < World.MAPHEIGHT and j < World.MAPWIDTH:
-                    if pygame.Rect(self.rect[0] + dirX * self.speed, self.rect[1] + dirY * self.speed, self.rect[2], self.rect[3]).colliderect(World.map[i][j].rect)\
-                       and World.map[i][j].type == 1:
+        for i in range(y - 2, y + 3):
+            for j in range(x - 2, x + 3):
+                if i >= 0 and j >= 0 and i < World.rooms[self.current_room].MAPHEIGHT and j < World.rooms[
+                    self.current_room].MAPWIDTH:
+                    if pygame.Rect(self.rect[0] + dirX * self.speed, self.rect[1] + dirY * self.speed, self.rect[2],
+                                   self.rect[3]).colliderect(World.rooms[self.current_room].map[i][j].rect) \
+                            and World.rooms[self.current_room].map[i][j].type == 1:
                         col = True
-                        break
-            if col:
-                break
 
-        return col;
+        return col
