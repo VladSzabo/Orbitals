@@ -23,13 +23,15 @@ class Block:
 
 class Room:
 
-    def __init__(self, file_name):
+    def __init__(self, file_name, x_big, y_big):
+        self.x_big = x_big
+        self.y_big = y_big
         self.file_name = file_name
         self.MAPHEIGHT = 10
         self.MAPWIDTH = 10
         self.map = []
 
-        file_map = open("maps/" + file_name + ".txt")
+        file_map = open("maps/" + file_name)
 
         sizes = file_map.readline().split(" ")
         self.MAPHEIGHT = int(sizes[0])
@@ -51,7 +53,7 @@ class Room:
                     else:
                         type1 = False
 
-                    self.map[y].append(Block(pygame.Rect(x/2 * Constants.blockSize, y * Constants.blockSize,
+                    self.map[y].append(Block(pygame.Rect((self.x_big-2500) * Constants.blockSize + x/2 * Constants.blockSize, (self.y_big-2500) * Constants.blockSize + y * Constants.blockSize,
                                                          Constants.blockSize, Constants.blockSize),
                                        str(value), None, type1, 100))
                 except ValueError:

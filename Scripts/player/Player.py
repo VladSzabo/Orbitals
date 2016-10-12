@@ -5,7 +5,6 @@ from Scripts.general.Constante import Constants
 
 class Player:
 
-
     def __init__(self, name, color, rect):
         self.speed = 2
         self.health = 100
@@ -64,12 +63,12 @@ class Player:
         col = False
         x = self.rect[0] / Constants.blockSize
         y = self.rect[1] / Constants.blockSize
-
+        """
         for i in range(y-2, y+3):
             for j in range(x-2, x+3):
                 if i >= 0 and j >= 0 and i < World.rooms[self.current_room].MAPHEIGHT and j < World.rooms[self.current_room].MAPWIDTH:
                     if pygame.Rect(self.rect[0] + dirX * self.speed, self.rect[1] + dirY * self.speed, self.rect[2], self.rect[3]).colliderect(World.rooms[self.current_room].map[i][j].rect)\
                        and World.rooms[self.current_room].map[i][j].type == 1:
                         col = True
-
+        """
         return col

@@ -17,6 +17,7 @@ class Constants:
         "1": pygame.image.load("res/1.png"),
         "2": pygame.image.load("res/2.png"),
         "3": pygame.image.load("res/3.png"),
+        "4": pygame.image.load("res/4.png")
     }
     Mobs = {
         "Zombie": pygame.image.load("res/mobs/zombie.png")
@@ -31,7 +32,7 @@ class Constants:
     gameExit = False
     gameOver = False
     firstMenu = True
-    blockSize = WIDTH / 15
+    blockSize = WIDTH / 70
     # Scroll
     sX = 0
     sY = 0
